@@ -9,6 +9,7 @@
 \graphicspath{{./fig/},{./logo/},{../logo/}}
 
 \input{global.tex}
+\addbibresource{bib/sample.bib}
 % \includeonly{content/start,}
 
 \begin{document}
@@ -35,11 +36,9 @@
 \include{content/ex_postscript}
 
 \backmatter
-% 如果参考文献使用 biber
-\bibliographystyle{masterbib}   % 参考文献的样式
-\bibliography{bib/sample}   % 参考文献，即 bib/sample.bib 文件（纯文本）
-% 如果打算手写参考文献
-\include{content/manref}
+\printbibliography[heading=bibliography,title={参考文献}]
+% 如果打算手写参考文献，请注释上一行，再取消下一行注释
+% \include{content/manref}
 
 \include{content/acknowledge}
 \include{content/backmatter}
