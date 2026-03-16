@@ -683,7 +683,7 @@ and the derived files           nuaathesis.ins,
 \newcommand\nuaa@label@abstract@toc{摘要}
 \newcommand\nuaa@labelEn@abstract{Abstract}
 \newcommand\nuaa@labelEn@ABSTRACT{ABSTRACT}
-\newcommand\nuaa@labelEn@KeyWords{KEY WORDS: }
+\newcommand\nuaa@labelEn@KeyWords{Key Words: }
 \newcommand\nuaa@labelEn@keywords{Keywords: }
 \newcommand\nuaa@labelEn@keywordsep{, }
 \newcommand\nuaa@labelJa@abstract{要 旨}
@@ -1054,9 +1054,11 @@ and the derived files           nuaathesis.ins,
     lotskip = 0pt
   }}
 %    \end{macrocode}
-% 定义各级标题的字体，英文设置为 Sans，中文设置成黑体
+% 定义章节标题和其他标题头的字体。
+% 章节标题允许英文走 Sans，其他标题头强制回到 Roman 路线。
 %    \begin{macrocode}
-  \newcommand\nuaa@font@title{\sffamily\heiti}
+  \newcommand\nuaa@font@headingchapter{\sffamily\heiti}
+  \newcommand\nuaa@font@headother{\rmfamily\heiti}
 %    \end{macrocode}
 % 定义图表清单中“图x.xx”的长度
 %    \begin{macrocode}
@@ -1080,9 +1082,10 @@ and the derived files           nuaathesis.ins,
   \PassOptionsToClass{a4paper}{book}
   \LoadClass{book}
 %    \end{macrocode}
-% 标题字体，只设置了英文为 Sans
+% 章节标题允许英文为 Sans，其他标题头保持 Roman。
 %    \begin{macrocode}
-  \newcommand\nuaa@font@title{\sffamily}
+  \newcommand\nuaa@font@headingchapter{\sffamily}
+  \newcommand\nuaa@font@headother{\rmfamily}
 %    \end{macrocode}
 % 定义图表清单中“Figure x.xx”的长度
 %    \begin{macrocode}
@@ -1110,9 +1113,11 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
   \RequirePackage[deluxe, uplatex]{otf}
 %    \end{macrocode}
-% 标题字体，英文设置为 Sans，日文设置为 ゴシック体
+% 章节标题允许英文为 Sans，日文设置为 ゴシック体；
+% 其他标题头保持 Roman，并让日文回到明朝体。
 %    \begin{macrocode}
-  \newcommand\nuaa@font@title{\sffamily\gtfamily}
+  \newcommand\nuaa@font@headingchapter{\sffamily\gtfamily}
+  \newcommand\nuaa@font@headother{\rmfamily\mcfamily}
 %    \end{macrocode}
 % 定义图表清单中“図x.xx”的长度
 %    \begin{macrocode}
@@ -1225,11 +1230,30 @@ and the derived files           nuaathesis.ins,
 %
 % \subsection{格式设置}
 % \subsubsection{字体}
-% 学校的 Word 模板要求英文使用 Monotype 的 Times New Roman\textsuperscript{\textregistered}，
-% 但这不是一个免费字体，对于非 Windows 平台会不友好。
-% 这里使用字形相似的 \pkg{newtx} 代替
+% 学校的 Word 模板要求英文使用 Monotype 的 Times New Roman\textsuperscript{\textregistered}。
+% XeLaTeX 下使用 fontspec 加载真正的 Times New Roman；
+% 非 XeLaTeX 时退化为字形相似的 \pkg{newtx} 近似。
 %    \begin{macrocode}
-\RequirePackage[defaultsups]{newtxtext}
+\ifxetex
+  \RequirePackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+  \setmainfont{Times New Roman}[
+    UprightFont    = *,
+    BoldFont       = * Bold,
+    ItalicFont     = * Italic,
+    BoldItalicFont = * Bold Italic
+  ]
+  \newfontfamily\nuaa@tnr{Times New Roman}[
+    Ligatures=TeX,
+    UprightFont    = *,
+    BoldFont       = * Bold,
+    ItalicFont     = * Italic,
+    BoldItalicFont = * Bold Italic
+  ]
+\else
+  \RequirePackage[defaultsups]{newtxtext}
+  \newcommand\nuaa@tnr{\rmfamily}
+\fi
 \RequirePackage{newtxmath}
 %    \end{macrocode}
 % \begin{macro}{zhcn}
@@ -1450,39 +1474,39 @@ and the derived files           nuaathesis.ins,
 \ifnuaa@bachelor
   \renewcommand\thesubsubsection{（\arabic{subsubsection}）}
   \titleformat{\chapter}
-    {\centering\linespread{1}\nuaa@font@title\fontsize{15bp}{31.748bp}\selectfont}
+    {\centering\linespread{1}\nuaa@font@headingchapter\fontsize{15bp}{31.748bp}\selectfont}
     {\nuaa@chaptername}{1em}{}
   \titlespacing*{\chapter}{0pt}{\ifnuaa@mainmatter{-5bp}\else{-20.874bp}\fi}{0bp}
   \titleformat*{\section}
-    {\linespread{1.0}\nuaa@font@title\fontsize{14bp}{31.748bp}\selectfont}
+    {\linespread{1.0}\nuaa@font@headingchapter\fontsize{14bp}{31.748bp}\selectfont}
   \titlespacing*{\section}{0pt}{0bp}{0bp}
   \titleformat*{\subsection}
-    {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{23.811bp}\selectfont}
+    {\linespread{1.0}\nuaa@font@headingchapter\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsection}{0pt}{0bp}{0bp}
   \titleformat*{\subsubsection}
-    {\linespread{1.0}\fontsize{12bp}{23.811bp}\selectfont}
+    {\linespread{1.0}\nuaa@font@headingchapter\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
   \newcommand{\nuaa@chapterbeforesep}{\if@frontmatter{-7bp}\else{10.4bp}\fi}
   \newcommand{\nuaa@chapteraftersep}{\if@frontmatter{5bp}\else{15.4bp}\fi}
   \titleformat{\chapter}
-    {\centering\linespread{1.0}\nuaa@font@title\fontsize{15bp}{20bp}\selectfont}
+    {\centering\linespread{1.0}\nuaa@font@headingchapter\fontsize{15bp}{20bp}\selectfont}
     {\nuaa@chaptername}{0.5em}{}
   \titlespacing*{\chapter}{0pt}
     {\nuaa@chapterbeforesep}
     {\nuaa@chapteraftersep}
   \assignpagestyle{\chapter}{style@main}
   \titleformat{\section}
-    {\linespread{1.0}\nuaa@font@title\fontsize{14pt}{20pt}\selectfont}
-    {\sffamily\heiti\thesection}{0.5em}{}
+    {\linespread{1.0}\nuaa@font@headingchapter\fontsize{14pt}{20pt}\selectfont}
+    {\nuaa@font@headingchapter\thesection}{0.5em}{}
   \titlespacing*{\section}{0pt}{7.8bp}{7.8bp}
   \titleformat{\subsection}
-    {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
-    {\sffamily\heiti\thesubsection}{0.3em}{}
+    {\linespread{1.0}\nuaa@font@headingchapter\fontsize{12bp}{20bp}\selectfont}
+    {\nuaa@font@headingchapter\thesubsection}{0.3em}{}
   \titlespacing*{\subsection}{0pt}{7.8bp}{7.8bp}
   \titleformat{\subsubsection}
-    {\linespread{1.0}\nuaa@font@title\fontsize{12bp}{20bp}\selectfont}
-    {\sffamily\heiti\thesubsubsection}{0.3em}{}
+    {\linespread{1.0}\nuaa@font@headingchapter\fontsize{12bp}{20bp}\selectfont}
+    {\nuaa@font@headingchapter\thesubsubsection}{0.3em}{}
   \titlespacing*{\subsubsection}{0pt}{7.8bp}{7.8bp}
 \fi
 %    \end{macrocode}
@@ -1549,12 +1573,12 @@ and the derived files           nuaathesis.ins,
   \fi
   \titlecontents{section}[2.5pc]
     {\nuaa@toc@font}
-    {\contentslabel[\sffamily\heiti\thecontentslabel]{2.5pc}}
+    {\contentslabel[\nuaa@font@headother\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \titlecontents{subsection}[4pc]
     {\nuaa@toc@font}
-    {\contentslabel[\sffamily\heiti\thecontentslabel]{2.5pc}}
+    {\contentslabel[\nuaa@font@headother\thecontentslabel]{2.5pc}}
     {}
     {\titlerule*[\nuaa@toc@rule]{.}\contentspage}
   \titlecontents{figure}[\nuaa@indentloft]
@@ -1701,7 +1725,7 @@ and the derived files           nuaathesis.ins,
   \trivlist
   \nuaafontparleft
   \item[\hskip\labelsep\hskip\parindent
-        \nuaa@font@title\selectfont
+        \nuaa@font@headother\selectfont
     #1\@addpunct{:}]\ignorespaces
 }{%
   \popQED\endtrivlist\@endpefalse
@@ -1714,7 +1738,7 @@ and the derived files           nuaathesis.ins,
     \trivlist
     \nuaafontparleft
     \item[\hskip\labelsep\hskip\parindent
-          \nuaa@font@title\selectfont
+          \nuaa@font@headother\selectfont
       #1\@addpunct{:}]\ignorespaces
   }{%
     \popQED\endtrivlist\@endpefalse
@@ -1724,7 +1748,7 @@ and the derived files           nuaathesis.ins,
     {\nuaafontparleft}{\parindent}
     {}{：}
     {0em}
-    {\nuaa@font@title\selectfont\thmname{#1}\thmnumber{#2}\thmnote{（#3）}}
+    {\nuaa@font@headother\selectfont\thmname{#1}\thmnumber{#2}\thmnote{（#3）}}
 \else\ifnuaa@lang@en
   \renewenvironment{proof}[1][\proofname]{
     \pushQED{\qed}%
@@ -1743,7 +1767,7 @@ and the derived files           nuaathesis.ins,
     {\nuaafontparleft\itshape\selectfont}{\parindent}
     {}{:~}
     {0em}
-    {\nuaa@font@title\selectfont\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+    {\nuaa@font@headother\selectfont\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
 \else\ifnuaa@lang@ja
   \renewenvironment{proof}[1][\proofname]{
     \pushQED{\qed}%
@@ -1752,7 +1776,7 @@ and the derived files           nuaathesis.ins,
     \trivlist
     \nuaafontparleft
     \item[\hskip\labelsep\hskip\parindent
-          \nuaa@font@title\selectfont
+          \nuaa@font@headother\selectfont
       #1\@addpunct{:}]\ignorespaces
   }{%
     \popQED\endtrivlist\@endpefalse
@@ -1762,7 +1786,7 @@ and the derived files           nuaathesis.ins,
     {\nuaafontparleft}{\parindent}
     {}{: }
     {0em}
-    {\nuaa@font@title\selectfont\thmname{#1}\thmnumber{#2}\thmnote{(#3)}}
+    {\nuaa@font@headother\selectfont\thmname{#1}\thmnumber{#2}\thmnote{(#3)}}
 \fi\fi\fi
 %    \end{macrocode}
 % \begin{macro}{\nuaatheoremg}
@@ -1810,7 +1834,7 @@ and the derived files           nuaathesis.ins,
 %    \begin{macrocode}
 \newcommand\nuaafontcaption{
   \ifnuaa@bachelor
-    \nuaa@font@title\linespread{1.0}\fontsize{10.5bp}{15.874bp}\selectfont
+    \rmfamily\linespread{1.0}\fontsize{10.5bp}{15.874bp}\selectfont
   \else
     \normalfont
   \fi
@@ -1972,8 +1996,8 @@ and the derived files           nuaathesis.ins,
   \ifnuaa@bachelor
     \nuaa@make@cover@bachelor
   \else
-    \nuaa@make@cover@master@cn
-    \nuaa@make@cover@master@en
+    \nuaa@make@cover@graduate@cn
+    \nuaa@make@cover@graduate@en
   \fi
 }
 %    \end{macrocode}
@@ -2051,6 +2075,39 @@ and the derived files           nuaathesis.ins,
 % \subsection{绘制特殊页面}
 % 本节定义绘制封面、承诺书和摘要页的代码。
 %
+% \subsubsection{封面专用字体命令}
+% 封面、英文摘要使用独立字体层，与正文样式解耦，便于维护。
+%    \begin{macrocode}
+\newcommand{\nuaa@font@cover@cn@five}{\songti\fontsize{10.5bp}{10.5bp}\selectfont}
+\newcommand{\nuaa@font@cover@cn@four}{\songti\fontsize{14bp}{14bp}\selectfont}
+\newcommand{\nuaa@font@cover@cn@three}{\songti\fontsize{16bp}{20bp}\selectfont}
+\newcommand{\nuaa@font@cover@cn@smallchu}{\songti\fontsize{36bp}{36bp}\selectfont}
+\newcommand{\nuaa@font@cover@cn@one}{\heiti\bfseries\fontsize{26bp}{31.2bp}\selectfont}
+\newcommand{\nuaa@font@cover@en@four}{\nuaa@tnr\fontsize{14bp}{14bp}\selectfont}
+\newcommand{\nuaa@font@cover@en@title}{\nuaa@tnr\bfseries\fontsize{22bp}{26.4bp}\selectfont}
+\newcommand{\nuaa@font@cover@en@body}{\nuaa@tnr\fontsize{14bp}{14bp}\selectfont}
+\newcommand{\nuaa@font@abstract@en@title}{\nuaa@tnr\bfseries\fontsize{14bp}{14bp}\selectfont}
+\newcommand{\nuaa@font@abstract@en@body}{\nuaa@tnr\fontsize{10.5bp}{15.6bp}\selectfont}
+% 研究生封面单独使用固定版心与固定行高块，避免正文参数改动影响封面。
+\newcommand{\nuaa@graduate@cover@setup}{
+  \newgeometry{
+    top=3.3cm,
+    bottom=3.3cm,
+    left=3.0cm,
+    right=2.8cm,
+    headheight=0pt,
+    headsep=0pt,
+    footskip=0pt
+  }
+  \thispagestyle{style@empty}
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0pt}
+}
+\newcommand{\nuaa@graduate@cover@finish}{\restoregeometry}
+\newcommand{\nuaa@graduate@cover@cn@titlewidth}{.82\textwidth}
+\newcommand{\nuaa@graduate@cover@en@titlewidth}{.80\textwidth}
+%    \end{macrocode}
+%
 % \subsubsection{本科封面}
 % \begin{macro}{\nuaa@make@cover@bachelor}
 % 本科封面布局的难点，在于正中间的题目，和下方的论文信息，
@@ -2082,7 +2139,7 @@ and the derived files           nuaathesis.ins,
   \linespread{1}\fontsize{12bp}{15.874bp}\selectfont
 
   \begin{flushright}
-    \sffamily\heiti\fontsize{15bp}{31.748bp}\selectfont
+    \rmfamily\heiti\fontsize{15bp}{31.748bp}\selectfont
     \setlength\arrayrulewidth{.75bp}
     \begin{tabular} {cc}
       \nuaa@label@thesisnum & \makebox[1.6in]{\nuaa@value@thesisid} \\ \cline{2-2}
@@ -2100,18 +2157,18 @@ and the derived files           nuaathesis.ins,
   \begin{center}
     \linespread{1}\fontsize{22bp}{31.748bp}\selectfont
     \begin{tabular}{C{1.48in}C{4.81in}}
-    {\sffamily\heiti\nuaa@label@title} &
+    {\rmfamily\heiti\nuaa@label@title} &
     \ifnuaa@lang@ja
-      {\sffamily\gtfamily\nuaa@valueJa@title \par}
+      {\rmfamily\gtfamily\nuaa@valueJa@title \par}
     \else\ifnuaa@lang@en
-      {\rmfamily\nuaa@valueEn@title \par}
+      {\nuaa@tnr\nuaa@valueEn@title \par}
     \fi\fi
     {\sffamily\heiti\nuaa@value@title}
     \end{tabular}
     \vspace{\stretch{1}}
     \vspace{47.622bp}
 
-    \sffamily\heiti\fontsize{15bp}{.51in}\selectfont
+    \rmfamily\heiti\fontsize{15bp}{.51in}\selectfont
     \setlength\arrayrulewidth{.5bp}
     \begin{tabular} {cc}
       \nuaa@label@author & \nuaa@value@author \\ \cline{2-2}
@@ -2125,7 +2182,7 @@ and the derived files           nuaathesis.ins,
     \end{tabular}
     \vspace{31.748bp}
 
-    \sffamily\heiti\fontsize{15bp}{31.748bp}
+    \rmfamily\heiti\fontsize{15bp}{31.748bp}
     \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate}
   \end{center}
   \restoregeometry
@@ -2280,7 +2337,7 @@ and the derived files           nuaathesis.ins,
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{硕/博士封面}
-% \begin{macro}{\nuaa@make@cover@master@cn}
+% \begin{macro}{\nuaa@make@cover@graduate@cn}
 % 硕/博士中文封面，难点比本科的封面少一个，只要把论文信息排好就行。
 % \sout{由于用了 \env{tabu}，导师名字再长、要写两个导师都没问题。}
 %
@@ -2301,35 +2358,48 @@ and the derived files           nuaathesis.ins,
 % \changes{v2.1b}{2018/12/03}{添加专硕封面}
 % \changes{v2.1b}{2018/12/26}{修正多个指导教师产生的对齐问题}
 %    \begin{macrocode}
-\newcommand\nuaa@make@cover@master@cn{
+\newcommand\nuaa@make@cover@graduate@cn{
   \cleardoublepage
+  \nuaa@graduate@cover@setup
 
-  \begin{multicols}{2}
-    \linespread{1}\songti\fontsize{10.5bp}{15.6bp}\selectfont
-    \begin{flushleft}
+  \noindent
+  \begin{minipage}[t]{.5\textwidth}
+    \raggedright
+    \nuaa@font@cover@cn@five
       中图分类号：\nuaa@value@libraryclassid \par
       学科分类号：\nuaa@value@subjectclassid
-    \end{flushleft}
-    \columnbreak
-    \begin{flushright}
+  \end{minipage}%
+  \begin{minipage}[t]{.5\textwidth}
+    \raggedleft
+    \nuaa@font@cover@cn@five
       论文编号：\nuaa@value@thesisid
-    \end{flushright}
-  \end{multicols}
-  \vspace{\stretch{2}}
+  \end{minipage}
+  \vspace*{28bp}
 
   \begin{center}
-    \linespread{1}\songti\fontsize{34bp}{62.4bp}\selectfont\nuaa@label@majortype\nuaa@worktypecn
-    \vspace{\stretch{2}}
-
-    \linespread{1}\sffamily\heiti\fontsize{26bp}{46.8bp}\selectfont\nuaa@value@title
+    {\nuaa@font@cover@cn@smallchu \nuaa@label@majortype\nuaa@worktypecn \par}
   \end{center}
-  \vspace{\stretch{3}}
+  \vspace*{14bp}
 
   \begin{center}
-  \linespread{1}\rmfamily\songti\fontsize{16bp}{31.2bp}\selectfont
+    \parbox[c][62.4bp][c]{\nuaa@graduate@cover@cn@titlewidth}{
+      \centering
+      \begingroup
+        \renewcommand\linebreak{\par}
+        \nuaa@font@cover@cn@one
+        \nuaa@value@title \par
+      \endgroup
+    }
+  \end{center}
+  \vspace*{28bp}
+
+  \begin{center}
+  \begingroup
   \renewcommand\linebreak{\par}
-  \begin{tabular} {@{\hskip 1.125in}c@{\hskip .6389in}p{3.0in}}
-    \nuaa@label@researchername & \nuaa@value@author \\
+  \nuaa@font@cover@cn@three
+  \setlength{\tabcolsep}{0pt}
+  \begin{tabular}{@{}>{\centering\arraybackslash}p{6em}@{\hspace{2.5em}}p{.50\textwidth}@{}}
+    \nuaa@label@researchername & \nuaa@value@author \\ 
 \ifnuaa@zhuanshuo
     \nuaa@label@professionaltype & \nuaa@value@majorsubject \\
     \nuaa@label@professionalfield & \nuaa@value@researchfield \\
@@ -2339,67 +2409,85 @@ and the derived files           nuaathesis.ins,
 \fi
     \nuaa@label@adviser & \nuaa@value@advisers \\
   \end{tabular}
+  \endgroup
   \end{center}
-  \vspace{\stretch{3}}
+  \vfill
 
   \begin{center}
-    \linespread{1}
-    \kaishu\fontsize{22bp}{31.2bp}\selectfont
-    \secretize{\includegraphics{nuaa-jianqi.pdf}}
-
-    \songti\fontsize{14bp}{31.2bp}\selectfont
-    \secretize{\nuaa@label@graduateschool\quad \nuaa@value@college}
-
-    \songti\fontsize{14bp}{31.2bp}\selectfont
-    \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate}
-
+    \secretize{\includegraphics{nuaa-jianqi.pdf}} \par
+    {\nuaa@font@cover@cn@four
+      \secretize{\nuaa@label@graduateschool\quad \nuaa@value@college} \par}
+    {\nuaa@font@cover@cn@four
+      \ifdefempty{\nuaa@value@applydate}{\nuaa@dateCn}{\nuaa@value@applydate} \par}
   \end{center}
+  \nuaa@graduate@cover@finish
 }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\nuaa@make@cover@master@en}
-% 硕/博士英文封面。值得一提的是，正是学校 Word 模板的这一页，
-% 导致了本模板 |v2.1| 放弃完美复刻 Word 模板的方针。
-%
-% 原因在于本页标题下面的三段字，加起来一共11~行，原 Word 模板换了5~次格式。
-% 用空行来增加行间距、对齐到文档网络随意改，
-% 笔者实在解读不出原模板作者的意图，以及ta预期的格式。
-% 这种毫无逻辑的格式转变，让笔者觉得原模板作者根本不会在意数~pt 的误差，
-% 刻意去复现原模板无逻辑的格式变化是没有意义的。
-% 因此笔者按自己对排版的理解，实现了原模板的主体格式。
+% \begin{macro}{\nuaa@make@cover@graduate@en}
+% 硕/博士英文封面。
+% 新版模板的英文封面主要由固定字号、固定行距与若干空白行构成，
+% 因此这里采用与中文封面相同的思路，把字号/行距和垂直留白拆成独立块，
+% 后续如果学校再调整封面，只需要维护这一段代码。
 % \changes{v2.1c}{2018/12/27}{改正 sumbrez 指出的 typo: \sout{fullfillment}}
 %    \begin{macrocode}
-\newcommand\nuaa@make@cover@master@en{
+\newcommand\nuaa@make@cover@graduate@en{
   \cleardoublepage
+  \nuaa@graduate@cover@setup
 
   \begin{center}
-    \linespread{1.5}\fontsize{14bp}{14bp}\rmfamily\selectfont
-    \secretize{\nuaa@labelEn@nuaa} \par
-    \secretize{\nuaa@labelEn@graduateschool} \par
-    \nuaa@valueEn@college \vspace{\stretch{1}}
+    \begingroup
+      \renewcommand\linebreak{\par}
+      {\nuaa@font@cover@en@four
+        \secretize{\nuaa@labelEn@nuaa} \par
+        \secretize{\nuaa@labelEn@graduateschool} \par
+        \nuaa@valueEn@college \par}
 
-    \linespread{1}\fontsize{22bp}{31.2bp}\rmfamily\selectfont
-    \ifnuaa@lang@ja
-      \jpn{\nuaa@textbf{\nuaa@valueJa@title}}
-    \else
-      \nuaa@textbf{\nuaa@valueEn@title}
-    \fi \par \vspace{\stretch{1}}
+      \vspace*{28bp}
 
-    \linespread{1.75}\fontsize{14bp}{16.8bp}\rmfamily\selectfont
-    A \nuaa@labelEn@thesis\ in \\
-    \nuaa@valueEn@majorsubject \par \bigskip
-    by \\
-    \nuaa@valueEn@author \par \bigskip
-    Advised by \\
-    \nuaa@valueEn@advisers \par \bigskip
+      \parbox{ \nuaa@graduate@cover@en@titlewidth }{
+        \centering
+        \nuaa@font@cover@en@title
+        \ifnuaa@lang@ja
+          \jpn{\nuaa@textbf{\nuaa@valueJa@title}}
+        \else
+          \nuaa@textbf{\nuaa@valueEn@title}
+        \fi \par
+      }
 
-    Submitted in Partial Fulfillment \\
-    of the Requirements \\
-    for the Degree of \\
-    \nuaa@valueEn@degreefull \par \bigskip
+      \vspace*{28bp}
 
-    \ifdefempty{\nuaa@valueEn@applydate}{\nuaa@dateEn}{\nuaa@valueEn@applydate}
+      {\nuaa@font@cover@en@body
+        A \nuaa@labelEn@thesis\ in \par
+        \nuaa@valueEn@majorsubject \par}
+
+      \vspace*{14bp}
+
+      {\nuaa@font@cover@en@body
+        by \par
+        \nuaa@valueEn@author \par}
+
+      \vspace*{14bp}
+
+      {\nuaa@font@cover@en@body
+        Advised by \par
+        \nuaa@valueEn@advisers \par}
+
+      \vspace*{14bp}
+
+      {\nuaa@font@cover@en@body
+        Submitted in Partial Fulfillment \par
+        of the Requirements \par
+        for the Degree of \par
+        \nuaa@valueEn@degreefull \par}
+    \endgroup
+
+    \vfill
+
+    {\nuaa@font@cover@en@four
+      \ifdefempty{\nuaa@valueEn@applydate}{\nuaa@dateEn}{\nuaa@valueEn@applydate} \par}
   \end{center}
+  \nuaa@graduate@cover@finish
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2502,15 +2590,18 @@ and the derived files           nuaathesis.ins,
     \clearpage
   \fi
 
-  \chapter*{\textrm{\nuaa@textbf{\nuaa@labelEn@ABSTRACT}}}
+  \chapter*{{\nuaa@font@abstract@en@title \nuaa@labelEn@ABSTRACT}}
 
   \begingroup
     \setlength\parindent{1em}
+    \nuaa@font@abstract@en@body
     \nuaa@abstractEn
   \endgroup
   \vskip 2\baselineskip minus 1.5\baselineskip
 
-  \nuaa@put@kw{\nuaa@textbf{\nuaa@labelEn@keywords}}{\nuaa@keywordsEn}
+  \nuaa@put@kw
+    {{\nuaa@font@abstract@en@body\bfseries \nuaa@labelEn@KeyWords}}
+    {{\nuaa@font@abstract@en@body \nuaa@keywordsEn}}
 }
 %    \end{macrocode}
 % \end{macro}
