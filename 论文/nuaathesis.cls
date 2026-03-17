@@ -486,27 +486,29 @@
     {\linespread{1.0}\nuaa@font@headingchapter\fontsize{12bp}{23.811bp}\selectfont}
   \titlespacing*{\subsubsection}{0pt}{0bp}{0bp}
 \else
-  \newcommand{\nuaa@chapterbeforesep}{\if@frontmatter{-7bp}\else{10.4bp}\fi}
-  \newcommand{\nuaa@chapteraftersep}{\if@frontmatter{5bp}\else{15.4bp}\fi}
+  % Word 模板要求：标题固定行距 20 磅；大标题段前段后 1.5 行，
+  % 一级/二级/三级标题段前段后 0.5 行。
+  \newcommand{\nuaa@titlesep@chapter}{30bp}
+  \newcommand{\nuaa@titlesep@other}{10bp}
   \titleformat{\chapter}
     {\centering\linespread{1.0}\nuaa@font@headingchapter\fontsize{15bp}{20bp}\selectfont}
     {\nuaa@chaptername}{0.5em}{}
   \titlespacing*{\chapter}{0pt}
-    {\nuaa@chapterbeforesep}
-    {\nuaa@chapteraftersep}
+    {\nuaa@titlesep@chapter}
+    {\nuaa@titlesep@chapter}
   \assignpagestyle{\chapter}{style@main}
   \titleformat{\section}
     {\linespread{1.0}\nuaa@font@headingchapter\fontsize{14pt}{20pt}\selectfont}
     {\nuaa@font@headingchapter\thesection}{0.5em}{}
-  \titlespacing*{\section}{0pt}{7.8bp}{7.8bp}
+  \titlespacing*{\section}{0pt}{\nuaa@titlesep@other}{\nuaa@titlesep@other}
   \titleformat{\subsection}
     {\linespread{1.0}\nuaa@font@headingchapter\fontsize{12bp}{20bp}\selectfont}
     {\nuaa@font@headingchapter\thesubsection}{0.3em}{}
-  \titlespacing*{\subsection}{0pt}{7.8bp}{7.8bp}
+  \titlespacing*{\subsection}{0pt}{\nuaa@titlesep@other}{\nuaa@titlesep@other}
   \titleformat{\subsubsection}
     {\linespread{1.0}\nuaa@font@headingchapter\fontsize{12bp}{20bp}\selectfont}
     {\nuaa@font@headingchapter\thesubsubsection}{0.3em}{}
-  \titlespacing*{\subsubsection}{0pt}{7.8bp}{7.8bp}
+  \titlespacing*{\subsubsection}{0pt}{\nuaa@titlesep@other}{\nuaa@titlesep@other}
 \fi
 \setcounter{secnumdepth}{3}
 \newcommand\nuaa@toc@rule{.57ex}
@@ -835,6 +837,7 @@
 \newcommand{\nuaa@cover@titlegap@en}{\vspace*{1.5cm}}
 \newcommand{\nuaa@cover@blankline@en@one}{\vspace*{14bp}}
 \newcommand{\nuaa@cover@blankline@en@two}{\vspace*{28bp}}
+\newcommand{\nuaa@font@declare@master@title}{\rmfamily\songti\fontsize{22bp}{22bp}\selectfont}
 \newcommand{\nuaa@font@declare@master}{\rmfamily\songti\fontsize{16bp}{16bp}\selectfont}
 \newcommand{\nuaa@declare@blankline@master}{\vspace*{2\baselineskip}}
 \newcommand{\nuaa@font@abstract@cn@title}{\rmfamily\heiti\fontsize{15bp}{20bp}\selectfont}
@@ -1158,7 +1161,7 @@
   \setlength\parskip{0pt}
 
   \begin{center}
-  \nuaa@font@declare@master
+  \nuaa@font@declare@master@title
   独创性声明 \par
   \end{center}
 
@@ -1183,7 +1186,7 @@
   \nuaa@declare@blankline@master
 
   \begin{center}
-  \nuaa@font@declare@master
+  \nuaa@font@declare@master@title
   使用授权声明 \par
   \end{center}
 
