@@ -36,7 +36,7 @@
 \newcommand\nuaa@label@classid{班\hfill 级}
 \newcommand\nuaa@label@adviser{指\hfill 导\hfill 教\hfill 师}
 \newcommand\nuaa@label@industrialadviser{企\hfill 业\hfill 导\hfill 师}
-\newcommand\nuaa@label@researchername{研究生姓名}
+\newcommand\nuaa@label@researchername{研\hfill 究\hfill 生\hfill 姓\hfill 名}
 \newcommand\nuaa@label@majorsubject{学\hfill 科\hfill 专\hfill 业}
 \newcommand\nuaa@label@researchfield{研\hfill 究\hfill 方\hfill 向}
 \newcommand\nuaa@label@professionaltype{专\hfill 业\hfill 类\hfill 别}
@@ -46,7 +46,7 @@
 \newcommand\nuaa@labelEn@graduateschool{The Graduate School}
 \newcommand\nuaa@labelEn@thesis@doctor{Dissertation}
 \newcommand\nuaa@labelEn@thesis@master{Thesis}
-\newcommand\nuaa@label@abstract{摘\qquad 要}
+\newcommand\nuaa@label@abstract{摘\quad 要}
 \newcommand\nuaa@label@abstractshort{摘要}
 \newcommand\nuaa@label@keywords{关键词：}
 \newcommand\nuaa@label@keywordsep{，}
@@ -801,7 +801,7 @@
 \newcommand{\nuaa@font@cover@cn@four}{\songti\fontsize{14bp}{14bp}\selectfont}
 \newcommand{\nuaa@font@cover@cn@three}{\songti\fontsize{16bp}{20bp}\selectfont}
 \newcommand{\nuaa@font@cover@cn@smallchu}{\songti\fontsize{36bp}{36bp}\selectfont}
-\newcommand{\nuaa@font@cover@cn@one}{\heiti\bfseries\fontsize{26bp}{31.2bp}\selectfont}
+\newcommand{\nuaa@font@cover@cn@one}{\sffamily\heiti\bfseries\fontsize{26bp}{31.2bp}\selectfont}
 \newcommand{\nuaa@cover@schoolnamefontfile}{base/迷你简启体.ttf}
 \ifxetex
   \IfFileExists{\nuaa@cover@schoolnamefontfile}{
@@ -832,6 +832,11 @@
 \newcommand{\nuaa@font@cover@en@four}{\nuaa@tnr\fontsize{14bp}{14bp}\selectfont}
 \newcommand{\nuaa@font@cover@en@title}{\nuaa@tnr\bfseries\fontsize{22bp}{26.4bp}\selectfont}
 \newcommand{\nuaa@font@cover@en@body}{\nuaa@tnr\fontsize{14bp}{14bp}\selectfont}
+\newcommand{\nuaa@cover@titlegap@en}{\vspace*{1.5cm}}
+\newcommand{\nuaa@cover@blankline@en@one}{\vspace*{14bp}}
+\newcommand{\nuaa@cover@blankline@en@two}{\vspace*{28bp}}
+\newcommand{\nuaa@font@declare@master}{\rmfamily\songti\fontsize{16bp}{16bp}\selectfont}
+\newcommand{\nuaa@declare@blankline@master}{\vspace*{2\baselineskip}}
 \newcommand{\nuaa@font@abstract@cn@title}{\rmfamily\heiti\fontsize{15bp}{20bp}\selectfont}
 \newcommand{\nuaa@font@abstract@cn@body}{\rmfamily\songti\fontsize{10.5bp}{20bp}\selectfont}
 \newcommand{\nuaa@font@abstract@en@title}{\nuaa@tnr\bfseries\fontsize{14bp}{14bp}\selectfont}
@@ -1034,12 +1039,12 @@
     \nuaa@font@cover@cn@five
       论文编号：\nuaa@value@thesisid
   \end{minipage}
-  \vspace*{28bp}
+  \vspace*{30bp}
 
   \begin{center}
     {\nuaa@font@cover@cn@smallchu \nuaa@label@majortype\nuaa@worktypecn \par}
   \end{center}
-  \vspace*{14bp}
+  \vspace*{16bp}
 
   \begin{center}
     \parbox[c][62.4bp][c]{\nuaa@graduate@cover@cn@titlewidth}{
@@ -1053,24 +1058,24 @@
   \end{center}
   \vspace*{28bp}
 
-  \begin{center}
   \begingroup
   \renewcommand\linebreak{\par}
   \nuaa@font@cover@cn@three
   \setlength{\tabcolsep}{0pt}
-  \begin{tabular}{@{}>{\centering\arraybackslash}p{6em}@{\hspace{2.5em}}p{.50\textwidth}@{}}
-    \nuaa@label@researchername & \nuaa@value@author \\
+  \noindent\makebox[\textwidth][c]{%
+    \begin{tabular}{@{}p{5em}@{\hspace{2em}}>{\raggedright\arraybackslash}p{.44\textwidth}@{}}
+      \nuaa@label@researchername & \nuaa@value@author \\
 \ifnuaa@zhuanshuo
-    \nuaa@label@professionaltype & \nuaa@value@majorsubject \\
-    \nuaa@label@professionalfield & \nuaa@value@researchfield \\
+      \nuaa@label@professionaltype & \nuaa@value@majorsubject \\
+      \nuaa@label@professionalfield & \nuaa@value@researchfield \\
 \else
-    \nuaa@label@majorsubject & \nuaa@value@majorsubject \\
-    \nuaa@label@researchfield & \nuaa@value@researchfield \\
+      \nuaa@label@majorsubject & \nuaa@value@majorsubject \\
+      \nuaa@label@researchfield & \nuaa@value@researchfield \\
 \fi
-    \nuaa@label@adviser & \nuaa@value@advisers \\
-  \end{tabular}
+      \nuaa@label@adviser & \nuaa@value@advisers \\
+    \end{tabular}%
+  }
   \endgroup
-  \end{center}
   \vfill
 
   \begin{center}
@@ -1094,42 +1099,51 @@
         \secretize{\nuaa@labelEn@graduateschool} \par
         \nuaa@valueEn@college \par}
 
-      \vspace*{28bp}
+      \nuaa@cover@titlegap@en
 
-      \parbox{ \nuaa@graduate@cover@en@titlewidth }{
+      \parbox[c][52.8bp][c]{\nuaa@graduate@cover@en@titlewidth}{
         \centering
         \nuaa@font@cover@en@title
         \nuaa@textbf{\nuaa@valueEn@title} \par
       }
 
-      \vspace*{28bp}
+      \nuaa@cover@titlegap@en
 
       {\nuaa@font@cover@en@body
         A \nuaa@labelEn@thesis\ in \par
         \nuaa@valueEn@majorsubject \par}
 
-      \vspace*{14bp}
+      \nuaa@cover@blankline@en@one
 
       {\nuaa@font@cover@en@body
         by \par
         \nuaa@valueEn@author \par}
 
-      \vspace*{14bp}
+      \nuaa@cover@blankline@en@one
 
       {\nuaa@font@cover@en@body
         Advised by \par
         \nuaa@valueEn@advisers \par}
 
-      \vspace*{14bp}
+      \nuaa@cover@blankline@en@one
 
       {\nuaa@font@cover@en@body
-        Submitted in Partial Fulfillment \par
-        of the Requirements \par
-        for the Degree of \par
+        Submitted in Partial Fulfillment \par}
+      \nuaa@cover@blankline@en@one
+
+      {\nuaa@font@cover@en@body
+        of the Requirements \par}
+      \nuaa@cover@blankline@en@one
+
+      {\nuaa@font@cover@en@body
+        for the Degree of \par}
+      \nuaa@cover@blankline@en@one
+
+      {\nuaa@font@cover@en@body
         \nuaa@valueEn@degreefull \par}
     \endgroup
 
-    \vfill
+    \nuaa@cover@blankline@en@two
 
     {\nuaa@font@cover@en@four
       \ifdefempty{\nuaa@valueEn@applydate}{\nuaa@dateEn}{\nuaa@valueEn@applydate} \par}
@@ -1139,16 +1153,19 @@
 \newcommand\nuaa@make@declare@master{
   \cleardoublepage
 
+  \thispagestyle{style@empty}
+  \setlength\parindent{2\ccwd}
+  \setlength\parskip{0pt}
+
   \begin{center}
-  \linespread{1.0}\songti\fontsize{22bp}{62.4bp}\selectfont
-  \vspace*{25.5bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  \nuaa@font@declare@master
   独创性声明 \par
   \end{center}
 
+  \nuaa@declare@blankline@master
+
   \begingroup
-  \vspace*{31.4bp} \vspace{-\parskip}\vspace{-\baselineskip}
-  \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
-  \setlength\parindent{2\ccwd}
+  \nuaa@font@declare@master
 
   本人声明所呈交的\nuaa@worktypecn 是本人在导师指导下进行的研究工作及取得的研究成果。
   除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，
@@ -1156,23 +1173,24 @@
 
   \endgroup
 
-  \vspace*{15.7bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  \nuaa@declare@blankline@master
   \begin{flushright}
-  \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
+  \nuaa@font@declare@master
   研究生签名： \underline{\hspace{7em}} \hspace{1em}
   日期： \underline{\hspace{7em}} \par
   \end{flushright}
 
+  \nuaa@declare@blankline@master
+
   \begin{center}
-  \linespread{1.0}\songti\fontsize{22bp}{62.4bp}\selectfont
-  \vspace*{62.8bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  \nuaa@font@declare@master
   使用授权声明 \par
   \end{center}
 
+  \nuaa@declare@blankline@master
+
   \begingroup
-  \vspace*{31.4bp} \vspace{-\parskip}\vspace{-\baselineskip}
-  \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
-  \setlength\parindent{2\ccwd}
+  \nuaa@font@declare@master
 
   本人完全了解\secretize{\nuaa@label@nuaa} 有关保留、使用学位论文的规定，
   即学校有权保留并向国家有关部门或机构送交论文的复印件和电子版，
@@ -1182,15 +1200,13 @@
 
   \endgroup
 
-  \vspace*{15.7bp} \vspace{-\parskip}\vspace{-\baselineskip}
+  \nuaa@declare@blankline@master
   \begin{flushright}
-  \linespread{1.0}\rmfamily\songti\fontsize{16bp}{30bp}\selectfont
+  \nuaa@font@declare@master
   研究生签名： \underline{\hspace{3.5em}} \hspace{0.5em}
   导师签名： \underline{\hspace{3.5em}} \hspace{0.5em}
   日期： \underline{\hspace{3.5em}} \par
   \end{flushright}
-
-  \vfill
 }
 \newcommand\nuaa@make@abstract@master@cn{
   \nuaa@specialpage@clear
@@ -1239,26 +1255,5 @@
   \textsc{Thesix}}
 }
 \newcommand\cquthesis{\textsc{Cqu}\-\textsc{Thesis}}
-%% 
-%% Copyright (C) 2020 by nuaatug
-%% 
-%% Licensed under the Apache License, Version 2.0 (the "License");
-%% you may not use this file except in compliance with the License.
-%% You may obtain a copy of the License at
-%% 
-%%     http://www.apache.org/licenses/LICENSE-2.0
-%% 
-%% Unless required by applicable law or agreed to in writing, software
-%% distributed under the License is distributed on an "AS IS" BASIS,
-%% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-%% See the License for the specific language governing permissions and
-%% limitations under the License.
-%% 
-%% This work consists of the file  nuaathesis.dtx
-%% and the derived files           nuaathesis.ins,
-%%                                 nuaathesis.cls,
-%%                                 nuaathesis.cfg and
-%%                                 nuaathesis.pdf
-%% 
-%%
+
 %% End of file `nuaathesis.cls'.
