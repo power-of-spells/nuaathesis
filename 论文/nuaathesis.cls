@@ -829,12 +829,15 @@
 \else
   \newcommand\nuaa@font@cover@cn@schoolnamefamily{\kaishu}
 \fi
+% 手动控制主要标题与副标题之间的间距
 \newcommand{\nuaa@font@cover@cn@schoolname}{%
   \nuaa@font@cover@cn@schoolnamefamily\fontsize{22bp}{31.2bp}\selectfont}
 \newcommand{\nuaa@font@cover@en@four}{\nuaa@tnr\fontsize{14bp}{14bp}\selectfont}
 \newcommand{\nuaa@font@cover@en@title}{\nuaa@tnr\bfseries\fontsize{22bp}{26.4bp}\selectfont}
 \newcommand{\nuaa@font@cover@en@body}{\nuaa@tnr\fontsize{14bp}{14bp}\selectfont}
-\newcommand{\nuaa@cover@titlegap@en}{\vspace*{1.5cm}}
+\newcommand{\nuaa@cover@titlegap@cn@top}{\vspace*{32bp}}
+\newcommand{\nuaa@cover@titlegap@cn@bottom}{\vspace*{56bp}}
+\newcommand{\nuaa@cover@titlegap@en}{\vspace*{3cm}}
 \newcommand{\nuaa@cover@blankline@en@one}{\vspace*{14bp}}
 \newcommand{\nuaa@cover@blankline@en@two}{\vspace*{28bp}}
 \newcommand{\nuaa@font@declare@master@title}{\rmfamily\songti\fontsize{22bp}{22bp}\selectfont}
@@ -871,9 +874,10 @@
   \setlength{\parindent}{0pt}
   \setlength{\parskip}{0pt}
 }
+% 设置封面title宽度
 \newcommand{\nuaa@graduate@cover@finish}{\restoregeometry}
-\newcommand{\nuaa@graduate@cover@cn@titlewidth}{.82\textwidth}
-\newcommand{\nuaa@graduate@cover@en@titlewidth}{.80\textwidth}
+\newcommand{\nuaa@graduate@cover@cn@titlewidth}{.9\textwidth}
+\newcommand{\nuaa@graduate@cover@en@titlewidth}{.95\textwidth}
 \newcommand\nuaa@make@cover@bachelor{
   \cleardoublepage
   \linespread{1}\fontsize{12bp}{15.874bp}\selectfont
@@ -1047,7 +1051,7 @@
   \begin{center}
     {\nuaa@font@cover@cn@smallchu \nuaa@label@majortype\nuaa@worktypecn \par}
   \end{center}
-  \vspace*{16bp}
+  \nuaa@cover@titlegap@cn@top
 
   \begin{center}
     \parbox[c][62.4bp][c]{\nuaa@graduate@cover@cn@titlewidth}{
@@ -1059,7 +1063,7 @@
       \endgroup
     }
   \end{center}
-  \vspace*{28bp}
+  \nuaa@cover@titlegap@cn@bottom
 
   \begingroup
   \renewcommand\linebreak{\par}
