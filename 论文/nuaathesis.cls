@@ -843,10 +843,10 @@
 \newcommand{\nuaa@font@declare@master@title}{\rmfamily\songti\fontsize{22bp}{22bp}\selectfont}
 \newcommand{\nuaa@font@declare@master}{\rmfamily\songti\fontsize{16bp}{16bp}\selectfont}
 \newcommand{\nuaa@declare@blankline@master}{\vspace*{2\baselineskip}}
-\newcommand{\nuaa@font@abstract@cn@title}{\rmfamily\heiti\fontsize{15bp}{20bp}\selectfont}
-\newcommand{\nuaa@font@abstract@cn@body}{\rmfamily\songti\fontsize{10.5bp}{20bp}\selectfont}
-\newcommand{\nuaa@font@abstract@en@title}{\nuaa@tnr\bfseries\fontsize{14bp}{14bp}\selectfont}
-\newcommand{\nuaa@font@abstract@en@body}{\nuaa@tnr\fontsize{10.5bp}{15.6bp}\selectfont}
+\newcommand{\nuaa@font@abstract@cn@title}{\linespread{1}\rmfamily\heiti\fontsize{15bp}{20bp}\selectfont}
+\newcommand{\nuaa@font@abstract@cn@body}{\linespread{1}\rmfamily\songti\fontsize{10.5bp}{20bp}\selectfont}
+\newcommand{\nuaa@font@abstract@en@title}{\linespread{1}\nuaa@tnr\bfseries\fontsize{14bp}{14bp}\selectfont}
+\newcommand{\nuaa@font@abstract@en@body}{\linespread{1}\nuaa@tnr\fontsize{10.5bp}{15.6bp}\selectfont}
 \newcommand{\nuaa@specialpage@clear}{
   \ifnuaa@abstractopenright
     \cleardoublepage
@@ -854,11 +854,12 @@
     \clearpage
   \fi
 }
-\newcommand{\nuaa@specialpage@title}[1]{
-  \begin{center}
-    #1\par
-  \end{center}
-  \vspace{5bp}
+\newcommand{\nuaa@abstract@title@topskip}{12bp}
+\newcommand{\nuaa@abstract@title@bottomskip}{20bp}
+\newcommand{\nuaa@specialpage@title}[1]{%
+  \vspace*{\nuaa@abstract@title@topskip}%
+  {\centering #1\par}%
+  \vspace{\nuaa@abstract@title@bottomskip}%
 }
 \newcommand{\nuaa@graduate@cover@setup}{
   \newgeometry{
